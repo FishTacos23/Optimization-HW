@@ -6,15 +6,21 @@ function [] = fminunDriv()
     nobj = 0; % counter for objective evaluations
     ngrad = 0.; % counter for gradient evaluations
     
-    x0 = [10.; 10.; 10.]; % starting point, set to be column vector
+    % starting point, set to be column vector
+    %x0 = [10.; 10.; 10.]; 
+    x0 = [-1.5;1];
+    
     algoflag = 1; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
     stoptol = 1.e-5; % stopping tolerance, all gradient elements must be < stoptol
+    alpha = 0.1;
 
     % ---------- create contour ------------
-    plot2D(-11, 11, -11, 11, -8.5556);
+    %plot3D(-11, 11, -11, 11, -8.5556);
+    plot2D(-2, 2, -2, 2);
+    num_plot = 20;
     
     % ---------- call fminun----------------
-    [xopt, fopt, exitflag] = fminun(@obj, @gradobj, x0, stoptol, algoflag);
+    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol, algoflag, alpha, num_plot);
    
     xopt
     fopt
@@ -24,7 +30,7 @@ function [] = fminunDriv()
 end
 
  % function to be minimized
- function [f] = obj(x)
+ function [f] = obj3var(x)
     global nobj
     %example function
     f = 20 + 3*x(1) - 6*x(2) + 8*x(3) + 6*x(1)^2 - 2*x(1)*x(2) - x(1)*x(3) + x(2)^2 + 0.5*x(3)^2;
@@ -32,11 +38,28 @@ end
  end
 
 % get gradient as a column vector
- function [grad] = gradobj(x)
+ function [grad] = gradobj3var(x)
     global ngrad
     %gradient for function above
     grad(1,1) = 3 + 12*x(1) - 2*x(2) - x(3);
     grad(2,1) = -6 - 2*x(1) + 2*x(2);
     grad(3,1) = 8 - x(1) + x(3);
+    ngrad = ngrad + 1;
+ end
+ 
+ % function to be minimized
+ function [f] = obj2var(x)
+    global nobj
+    %example function
+    f = 100*((x(2)-(x(1)^2)))^2 + (1-x(1))^2;
+    nobj = nobj +1;
+ end
+
+% get gradient as a column vector
+ function [grad] = gradobj2var(x)
+    global ngrad
+    %gradient for function above
+    grad(1,1) = -400*x(1)*(x(2)-(x(1)^2))-2*(1-x(1));
+    grad(2,1) = 200*(x(2)-(x(1)^2));
     ngrad = ngrad + 1;
  end

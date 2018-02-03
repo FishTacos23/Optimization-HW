@@ -1,7 +1,6 @@
- function [xopt, fopt, exitflag] = fminun(obj, gradobj, x0, stoptol, algoflag)
+ function [xopt, fopt, exitflag] = fminun(obj, gradobj, x0, stoptol, algoflag, alpha, num_plot)
              
         %initialize variables
-        alpha = 0.5;          %set starting step length
         f = obj(x0);          %objective function
         grad = gradobj(x0);   %gradient
         x = x0;               %design
@@ -9,13 +8,18 @@
         % loop parameters
         iter = 0;          % iteration number
         max_iter = 100;    % maximum number of iterations
+        plot_bool = true;
                 
         while (iter<max_iter && all((abs(grad(:))) > stoptol))
              
-            plot(x(1),x(2),'-wp');
+            if iter < num_plot
+                plot(x(1),x(2),'-wp');
+            else
+                plot_bool = false;
+            end
             
             if (algoflag == 1)     % steepest descent
-                [s, a_star, mag] = steepest_decent(f, grad, x, alpha, obj);        
+                [s, a_star, mag] = steepest_decent(f, grad, x, alpha, obj, plot_bool);        
             elseif (algoflag == 2) % conjugate gradient
                 s = srchsd(grad);
             else                   % BFGS quasi newtown
@@ -40,7 +44,7 @@
      
      % get steepest descent search direction as column vector and step size
      % as a scalar
-     function [s, a_star, mag] = steepest_decent(f, grad, x, alpha, obj)
+     function [s, a_star, mag] = steepest_decent(f, grad, x, alpha, obj, plot_bool)
         
         s = -grad;   % search direction
         mag = sqrt(grad'*grad); % magnitude
@@ -51,7 +55,10 @@
         a(2) = alpha;
         x_n = x + a(2)*s/mag;
         f_a(2) = obj(x_n);
-        plot(x_n(1), x_n(2), '--r*');
+        
+        if plot_bool
+            plot(x_n(1), x_n(2), '--r*');
+        end
         
         % Iterator Variables
         i = 3;
@@ -82,7 +89,10 @@
             f_a(i) = obj(x_n);
             
             % Iteration funcs
-            plot(x_n(1), x_n(2), 'r*');
+            if plot_bool
+                plot(x_n(1), x_n(2), 'r*');
+            end
+            
             i = i + 1;
             
         end
