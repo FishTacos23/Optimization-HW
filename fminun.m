@@ -21,7 +21,6 @@
             end
             
             grad(iter, :)
-            grad(:, iter)
             
             if (algoflag == 1)     % steepest descent
                 [s, a_star, mag] = steepest_decent(f(iter, :), grad(iter, :), x(iter, :), alpha, obj, plot_bool);        
