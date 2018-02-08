@@ -54,7 +54,7 @@ function [x, f, grad, s, a_star, n_objectives] = conjugant_gradient(f, grad, x, 
 % 
 %     end
 
-    [a_star, n_objectives] = parabolic_line_search(plot_bool, obj, x, f, s, alpha, mag);
+    a_star, n_objectives = parabolic_line_search(a, f_a, plot_bool, n_objectives, obj, x, f);
 
     x(:,end+1) = x(:,end) + a_star*s(:,end)/mag;
     f(:,end+1) = obj(x(:,end));

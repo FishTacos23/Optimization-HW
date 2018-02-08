@@ -11,7 +11,7 @@ function [] = fminunDriv()
 %     x0 = [-3; 1];
     x0 = [-1.5;1];
     
-    algoflag = 2; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
+    algoflag = 1; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
     stoptol = 1.e-3; % stopping tolerance, all gradient elements must be < stoptol
     alpha = 0.01;
 
@@ -19,7 +19,7 @@ function [] = fminunDriv()
 %     plot3D(-11, 11, -11, 11, -8.5556);
 %     plotTEST(-5, 5, -5, 5);
     plot2D(-2, 2, -2, 2);
-    num_plot = 100;
+    num_plot = 20;
     
     % ---------- call fminun----------------
     [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol, algoflag, alpha, num_plot);

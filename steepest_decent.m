@@ -1,17 +1,19 @@
- function [x, f, grad] = steepest_decent(f, grad, x, alpha, obj, gradobj, plot_bool)
+ function [x, f, grad, s, a_star, n_objectives] = steepest_decent(f, grad, x, alpha, obj, gradobj, plot_bool, s)
 
-    s = -grad;   % search direction
-    mag = sqrt(grad*grad'); % magnitude
+    s(:,end+1) = -grad(:,end);   % search direction
+    mag = sqrt(grad(:,end)'*grad(:,end)); % magnitude
 
-    f_a(1) = f;
-
+    f_a(1) = f(:,end);
+    
     % FIRST STEP
     a(2) = alpha;
-    x_n = x + a(2)*s/mag;
+    x_n = x(:,end) + a(2)*s(:,end)/mag;
     f_a(2) = obj(x_n);
+    
+    n_objectives = 1;
 
     if plot_bool
-        plot(x_n(1), x_n(2), '--r*');
+%         plot(x_n(1), x_n(2), 'r.');
     end
 
     % Iterator Variables
@@ -39,12 +41,14 @@
         end
 
         % set point
-        x_n = x + a(i)*s/mag;
+        x_n = x(:,end) + a(i)*s(:,end)/mag;
         f_a(i) = obj(x_n);
+        
+        n_objectives = n_objectives + 1;
 
         % Iteration funcs
         if plot_bool
-            plot(x_n(1), x_n(2), 'r*');
+%             plot(x_n(1), x_n(2), 'r.');
         end
 
         i = i + 1;
@@ -54,8 +58,10 @@
     % Set values to calc a_star
     a_star = parabolic_line_search(a, f_a);
     
-    x(end+1, :) = x(end,:) + a_star*s/mag;
-    f(end+1, :) = obj(x(end, :));
-    grad(end+1, :) = gradobj(x(end, :));
+    x(:,end+1) = x(:,end) + a_star*s(:,end)/mag;
+    f(:,end+1) = obj(x(:,end));
+    grad(:,end+1) = gradobj(x(:,end));
+    
+    n_objectives = n_objectives + 1;
 
  end

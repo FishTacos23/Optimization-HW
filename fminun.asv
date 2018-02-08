@@ -24,7 +24,7 @@
                          
             % PLOTTING
             if iter < num_plot
-                plot(x(1, end),x(2, end),'cx', 'LineWidth', 5);
+                plot(x(1, end),x(2, end),'cx', 'LineWidth', 10);
             else
                 plot_bool = false;
             end
@@ -59,9 +59,12 @@
         
         plot(x(1, end),x(2 ,end),'g*', 'LineWidth', 10);
         
-        x1_line = x(1,:)';
-        x2_line = x(2,:)';
-        plot(x1_line, x2_line, 'k', 'LineWidth', 2);
+        x1q = x(1, end:end-20);
+        x2_line = x(2, end:end-20);
+        
+        x1_line = x(1, end:end-20);
+        x2_line = x(2, end:end-20);
+        plot(x1_line, x2_line, 'k');
         
         iter
         

@@ -1,13 +1,13 @@
-function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
+function [x, f, grad, N, s] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N, s)
 
-    s = -N*grad(:,end);   % search direction
-    mag = sqrt(s'*s); % magnitude
+    s(:,end+1) = -N*grad(:,end);   % search direction
+    mag = sqrt(s(:,end)'*s(:,end)); % magnitude
 
     f_a(1) = f(:,end);
 
     % FIRST STEP
     a(2) = alpha;
-    x_n = x(:,end) + a(2)*s/mag;
+    x_n = x(:,end) + a(2)*s(:,end)/mag;
     f_a(2) = obj(x_n);
 
     if plot_bool
@@ -39,7 +39,7 @@ function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
         end
 
         % set point
-        x_n = x(:,end) + (a(i)*s/mag);
+        x_n = x(:,end) + (a(i)*s(:,end)/mag);
         f_a(i) = obj(x_n);
 
         % Iteration funcs
@@ -53,14 +53,13 @@ function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
 
     a_star = parabolic_line_search(a, f_a);
 
-    x(:,end+1) = x(:, end) + a_star*s/mag;
+    x(:,end+1) = x(:, end) + a_star*s(:,end)/mag;
     f(:,end+1) = obj(x(:, end));
     grad(:,end+1) = gradobj(x(:, end));
 
     Dx = x(:, end)-x(:,end-1);
     gamma = grad(:, end)-grad(:,end-1);
 
-    u = Dx-N*gamma;
-    N = N + (1+gamma'*N*gamma/(Dx'*gamma))*(Dx*Dx'/(Dx'*gamma))-((Dx*gamma'*N+N*gamma*Dx')/(Dx'));
+    N = N + (1+gamma'*N*gamma/(Dx'*gamma))*(Dx*Dx'/(Dx'*gamma))-((Dx*gamma'*N+N*gamma*Dx')/(Dx'*gamma));
 
  end
