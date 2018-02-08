@@ -4,7 +4,6 @@
         f(:,1) = obj(x0);          %objective function
         grad(:,1) = gradobj(x0);   %gradient
         x(:,1) = x0;               %design
-        s(:,1) = -grad(:,1);
         
         % loop parameters
         iter = 1;          % iteration number
@@ -24,7 +23,7 @@
             if (algoflag == 1)     % steepest descent
                 [x, f, grad] = steepest_decent(f(end, :), grad(end, :), x(end, :), alpha, obj, gradobj, plot_bool);        
             elseif (algoflag == 2) % conjugate gradient
-                [x, f, grad, s] = conjugant_gradient(f, grad, x, alpha, obj, gradobj, plot_bool, s);
+                [x, f, grad] = conjugant_gradient(f, grad, x, alpha, obj, plot_bool);
             else                   % BFGS quasi newtown
                 if (iter==1)
                     N = eye(length(x0));
@@ -36,11 +35,11 @@
                         
         end
         
-        xopt = x(:,end);
-        fopt = f(:,end);
+        xopt = x(end, :);
+        fopt = f(end, :);
         exitflag = 0;
         
-        plot(x(1, end),x(2 ,end),'w*', 'LineWidth', 10);
+        plot(x(end, 1),x(end, 2),'w*', 'LineWidth', 10);
         
         iter
         
