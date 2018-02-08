@@ -7,22 +7,22 @@ function [] = fminunDriv()
     ngrad = 0.; % counter for gradient evaluations
     
     % starting point, set to be column vector
-    x0 = [10.; 10.; 10.]; 
+%     x0 = [10.; 10.; 10.]; 
 %     x0 = [-3; 1];
-    %x0 = [-1.5;1];
+    x0 = [-1.5;1];
     
-    algoflag = 2; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
-    stoptol = 1.e-5; % stopping tolerance, all gradient elements must be < stoptol
-    alpha = 0.5;
+    algoflag = 3; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
+    stoptol = 1.e-3; % stopping tolerance, all gradient elements must be < stoptol
+    alpha = 0.01;
 
     % ---------- create contour ------------
-    plot3D(-11, 11, -11, 11, -8.5556);
+%     plot3D(-11, 11, -11, 11, -8.5556);
 %     plotTEST(-5, 5, -5, 5);
-    %plot2D(-2, 2, -2, 2);
-    num_plot = 5;
+    plot2D(-2, 2, -2, 2);
+    num_plot = 20;
     
     % ---------- call fminun----------------
-    [xopt, fopt, exitflag] = fminun(@obj3var, @gradobj3var, x0, stoptol, algoflag, alpha, num_plot);
+    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol, algoflag, alpha, num_plot);
    
     xopt
     fopt
