@@ -39,7 +39,7 @@ function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
         end
 
         % set point
-        x_n = x(end) + a(i)*s/mag;
+        x_n = x(end, :) + (a(i)*s/mag)';
         f_a(i) = obj(x_n);
 
         % Iteration funcs
@@ -58,10 +58,10 @@ function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
     grad(end+1, :) = gradobj(x(end, :));
 
     Delta_x = x(end,:)-x(end-1,:);
-    gamma = f(end,:)-f(end-1,:);
+    gamma = grad(end,:)-grad(end-1,:);
 
-    auut_int = Delta_x-N*gamma;
-    auut = auut_int*auut_int'/(auut_int'*gamma);
+    auut_int = Delta_x'-N*gamma';
+    auut = auut_int*auut_int'/(auut_int'*gamma');
 
     N = N + auut;
 
