@@ -57,10 +57,9 @@ function [x, f, grad, N] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N)
     f(:,end+1) = obj(x(:, end));
     grad(:,end+1) = gradobj(x(:, end));
 
-    Delta_x = x(:, end)-x(:,end-1);
+    Dx = x(:, end)-x(:,end-1);
     gamma = grad(:, end)-grad(:,end-1);
 
-    u = Delta_x-N*gamma;
-    N = N + (u*u')/(u'*gamma);
+    N = N + (1+gamma'*N*gamma/(Dx'*gamma))*(Dx*Dx'/(Dx'*gamma))-((Dx*gamma'*N+N*gamma*Dx')/(Dx'*gamma));
 
  end
