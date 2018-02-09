@@ -1,6 +1,22 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
 function [x, f, grad, s, a_star, n_objectives] = conjugant_gradient(f,...
     grad, x, alpha, obj, gradobj, plot_bool, s)
-    
+
     mag = sqrt(s(:,end)'*s(:,end)); % magnitude
 
     [a_star, n_objectives] = parabolic_line_search(false, obj, x, f,...
@@ -9,10 +25,16 @@ function [x, f, grad, s, a_star, n_objectives] = conjugant_gradient(f,...
     x(:,end+1) = x(:,end) + a_star*s(:,end)/mag;
     f(:,end+1) = obj(x(:,end));
     grad(:,end+1) = gradobj(x(:,end));
-    
+
     n_objectives = n_objectives + 1;
-    
+
     Beta = grad(:,end)'*grad(:,end)/(grad(:,end-1)'*grad(:,end-1));
     s(:,end+1) = -grad(:,end) + Beta*s(:,end);
 
  end
+\end{verbatim}
+
+
+
+\end{document}
+    

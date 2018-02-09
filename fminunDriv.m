@@ -22,7 +22,8 @@ function [] = fminunDriv()
     num_plot = 100;
     
     % ---------- call fminun----------------
-    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol, algoflag, alpha, num_plot);
+    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol,...
+        algoflag, alpha, num_plot);
    
     xopt
     fopt
@@ -35,7 +36,8 @@ end
  function [f] = obj3var(x)
     global nobj
     %example function
-    f = 20 + 3*x(1) - 6*x(2) + 8*x(3) + 6*x(1)^2 - 2*x(1)*x(2) - x(1)*x(3) + x(2)^2 + 0.5*x(3)^2;
+    f = 20 + 3*x(1) - 6*x(2) + 8*x(3) + 6*x(1)^2 - 2*x(1)*x(2) - ...
+        x(1)*x(3) + x(2)^2 + 0.5*x(3)^2;
     nobj = nobj +1;
  end
 

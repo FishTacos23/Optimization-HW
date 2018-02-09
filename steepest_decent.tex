@@ -1,3 +1,19 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
  function [x, f, grad, s, a_star, n_objectives] = steepest_decent(f,...
      grad, x, alpha, obj, gradobj, plot_bool, s)
 
@@ -7,11 +23,17 @@
     % Set values to calc a_star
     [a_star, n_objectives] = parabolic_line_search(false, obj, x, f, s,...
         alpha, mag);
-    
+
     x(:,end+1) = x(:,end) + a_star*s(:,end)/mag;
     f(:,end+1) = obj(x(:,end));
     grad(:,end+1) = gradobj(x(:,end));
-    
+
     n_objectives = n_objectives + 1;
 
  end
+\end{verbatim}
+
+
+
+\end{document}
+    

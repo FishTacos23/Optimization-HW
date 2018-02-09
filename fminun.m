@@ -1,4 +1,5 @@
- function [xopt, fopt, exitflag] = fminun(obj, gradobj, x0, stoptol, algoflag, alpha, num_plot)
+ function [xopt, fopt, exitflag] = fminun(obj, gradobj, x0, stoptol, ...
+     algoflag, alpha, num_plot)
              
         %initialize variables
         f(:,1) = obj(x0);          %objective function
@@ -17,7 +18,8 @@
         saveTable = table;
         mag = sqrt(s(:,end)'*s(:,end));
         dir = s(:,end)'/mag;
-        newRow = {x(:,end)', f(:,end)', dir, alphaPrime(:,end)', nobj(:,end)'};
+        newRow = {x(:,end)', f(:,end)', dir, alphaPrime(:,end)', ...
+            nobj(:,end)'};
         saveTable = [saveTable; newRow];
                        
         while (iter<max_iter && all((abs(grad(end,:))) > stoptol))
@@ -31,14 +33,17 @@
             
             % FIND NEXT STEP
             if (algoflag == 1)     % steepest descent
-                [x, f, grad, s, a_star, n_step] = steepest_decent(f, grad, x, alpha, obj, gradobj, plot_bool, s);        
+                [x, f, grad, s, a_star, n_step] = steepest_decent(f, ...
+                    grad, x, alpha, obj, gradobj, plot_bool, s);        
             elseif (algoflag == 2) % conjugate gradient
-                [x, f, grad, s, a_star, n_step] = conjugant_gradient(f, grad, x, alpha, obj, gradobj, plot_bool, s);
+                [x, f, grad, s, a_star, n_step] = conjugant_gradient(f,...
+                    grad, x, alpha, obj, gradobj, plot_bool, s);
             else                   % BFGS quasi newtown
                 if (iter==1)
                     N = eye(length(x0));
                 end
-                [x, f, grad, N, s, a_star, n_step] = BFGS(f, grad, x, alpha, obj, gradobj, plot_bool, N, s);  
+                [x, f, grad, N, s, a_star, n_step] = BFGS(f, grad, x,...
+                    alpha, obj, gradobj, plot_bool, N, s);  
             end
             
             iter = iter + 1;
@@ -48,7 +53,8 @@
             mag = sqrt(s(:,end)'*s(:,end));
             dir = s(:,end)'/mag;
             
-            newRow = {x(:,end)', f(:,end)', dir, alphaPrime(:,end)', nobj(:,end)'};
+            newRow = {x(:,end)', f(:,end)', dir, alphaPrime(:,end)',...
+                nobj(:,end)'};
             saveTable = [saveTable; newRow];
                         
         end
@@ -67,8 +73,10 @@
         
         toSave = table2array(saveTable);
         fout = fopen(sprintf('output%d.csv', algoflag),'w');
-        fprintf(fout, '%s, %s, %s, %s, %s, %s, %s, %s, %s\r\n', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
-        fprintf(fout, '%8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f\r\n', toSave');
+        fprintf(fout, '%s, %s, %s, %s, %s, %s, %s, %s, %s\r\n', 'a',...
+            'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        fprintf(fout, '%8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f, %8.6f\r\n',...
+            toSave');
      	fclose(fout);
         
  end

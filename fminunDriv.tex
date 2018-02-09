@@ -1,3 +1,19 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
 function [] = fminunDriv()
 %----------------Example Driver program for fminun------------------
     clear;
@@ -5,28 +21,29 @@ function [] = fminunDriv()
     global nobj ngrad
     nobj = 0; % counter for objective evaluations
     ngrad = 0.; % counter for gradient evaluations
-    
-    % starting point, set to be column vector
-%     x0 = [10.; 10.; 10.]; 
-%     x0 = [-3; 1];
-    x0 = [-1.5;1];
-    
+
     algoflag = 1; % 1=steepest descent; 2=conjugate gradient; 3=BFGS quasi-Newton
     stoptol = 1.e-3; % stopping tolerance, all gradient elements must be < stoptol
     alpha = 0.01;
 
+    % starting point, set to be column vector
+    % x0 = [10.; 10.; 10.];
+    % x0 = [-3; 1];
+    x0 = [-1.5;1];
+
     % ---------- create contour ------------
-%     plot3D(-11, 11, -11, 11, -8.5556);
-%     plotTEST(-5, 5, -5, 5);
+    % plot3D(-11, 11, -11, 11, -8.5556);
+    % plotTEST(-5, 5, -5, 5);
     plot2D(-2, 2, -2, 2);
-    num_plot = 20;
-    
+    num_plot = 100;
+
     % ---------- call fminun----------------
-    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol, algoflag, alpha, num_plot);
-   
+    [xopt, fopt, exitflag] = fminun(@obj2var, @gradobj2var, x0, stoptol,...
+        algoflag, alpha, num_plot);
+
     xopt
     fopt
-    
+
     nobj
     ngrad
 end
@@ -35,7 +52,8 @@ end
  function [f] = obj3var(x)
     global nobj
     %example function
-    f = 20 + 3*x(1) - 6*x(2) + 8*x(3) + 6*x(1)^2 - 2*x(1)*x(2) - x(1)*x(3) + x(2)^2 + 0.5*x(3)^2;
+    f = 20 + 3*x(1) - 6*x(2) + 8*x(3) + 6*x(1)^2 - 2*x(1)*x(2) - ...
+        x(1)*x(3) + x(2)^2 + 0.5*x(3)^2;
     nobj = nobj +1;
  end
 
@@ -48,7 +66,7 @@ end
     grad(3,1) = 8 - x(1) + x(3);
     ngrad = ngrad + 1;
  end
- 
+
  % function to be minimized
  function [f] = obj2var(x)
     global nobj
@@ -65,7 +83,7 @@ end
     grad(2,1) = 200*(x(2)-(x(1)^2));
     ngrad = ngrad + 1;
  end
- 
+
   % function to be minimized
  function [f] = test(x)
     global nobj
@@ -82,3 +100,9 @@ end
     grad(2,1) = -2*x(1)+8*x(2);
     ngrad = ngrad + 1;
  end
+\end{verbatim}
+
+
+
+\end{document}
+    

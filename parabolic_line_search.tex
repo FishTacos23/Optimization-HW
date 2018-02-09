@@ -1,6 +1,22 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    \begin{verbatim}
 function [a_star, n_objectives] = parabolic_line_search(plot_bool, obj,...
     x, f, s, alpha, mag)
-    
+
 
     f_a(1) = f(:,end);
 
@@ -8,7 +24,7 @@ function [a_star, n_objectives] = parabolic_line_search(plot_bool, obj,...
     a(2) = alpha;
     x_n = x(:,end) + a(2)*s(:,end)/mag;
     f_a(2) = obj(x_n);
-    
+
     n_objectives = 1;
 
     if plot_bool
@@ -47,7 +63,7 @@ function [a_star, n_objectives] = parabolic_line_search(plot_bool, obj,...
         % set point
         x_n = x(:,end) + (a(i)*s(:,end)/mag);
         f_a(i) = obj(x_n);
-        
+
         n_objectives = n_objectives + 1;
 
         % Iteration funcs
@@ -77,6 +93,12 @@ function [a_star, n_objectives] = parabolic_line_search(plot_bool, obj,...
 
     a_star = (f_1*(a_2^2-a_3^2)+f_2*(a_3^2-a_1^2)+f_3*(a_1^2-a_2^2))...
         /(2*(f_1*(a_2-a_3)+f_2*(a_3-a_1)+f_3*(a_1-a_2)));
-    
-    
+
+
 end
+\end{verbatim}
+
+
+
+\end{document}
+    
